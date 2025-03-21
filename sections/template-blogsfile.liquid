@@ -1,0 +1,91 @@
+
+<div class="py-8">
+    {% paginate blog.articles by section.settings.number_of_blogs %}
+        <h1 class="text-5xl text-center">{{ blog.title }}</h1>
+
+        <div class="max-w-6xl mx-auto my-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+            {% for article in blog.articles %}
+                <div class="w-full">
+                    <div class="bg-white shadow-xl rounded-lg overflow-hidden ">
+                        {% if article.image %}
+                            <a href="{{ article.url }}">
+                                <img class="w-full h-80 object-cover" src="{{ article.image |img_url: 'medium' }}" alt="{{ article.image.alt }}">
+                            </a>
+                            
+                            {% else %}
+                                {{'image'|  placeholder_svg_tag: 'w-full h-80 object-cover bg-gray-200'}}
+                            
+                        {% endif %}
+
+                        <div class="p-4">
+                            <h1 class="text-xl  font-medium my-4">{{ article.title | capitalize }}</h1>
+                
+                        {% if section.settings.description %}
+                            {%  if  article.excerpt.size> 0 %} 
+                                <p  class="text-justify">{{ article.excerpt | strip_html| truncatewords: 15 }}</p>
+                                {% else %}
+                                <p  class="text-justify">{{ article.content | strip_html| truncatewords: 15 }}</p>
+                            {% endif %}   
+                        {% endif %}
+                        <a href="{{ article.url }} " class="text-medium text-blue-600 hover:text-blue-600  my-3 block">{{section.settings.read_more}} </a>
+
+                        </div>
+                        
+                    </div>
+                </div>
+               
+              
+                
+            {% endfor %}
+
+
+           
+    
+
+            </div>
+        </div>
+        <div class="max-w-6xl mx-auto">
+            {%  render 'pagination', pagination: paginate %}
+           </div>
+    {% endpaginate %}
+        
+</div>
+
+
+
+{%  schema  %}  
+    {
+        "name": "blog",
+        "settings": [
+
+            { 
+                "type": "text",
+                "id": "read_more",
+                "label":"read more",
+                "default": "Read More"
+
+
+            },
+            {
+                "type": "range",
+                "id": "number_of_blogs",
+                "label": "blog post per page",
+                "step": 1,
+                "max": 10,
+                "min": 1,
+                "default": 3
+            },
+            {
+                "type": "checkbox",
+                "id": "description",
+                "label": "dispaly description",
+                "default": true
+            }
+        ]
+        
+    }
+{% endschema %} 
+
+

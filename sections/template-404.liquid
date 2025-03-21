@@ -1,0 +1,58 @@
+<div class="max-w-md">
+    <div class="fond-bold text-5xl my-4">
+        {{ section.settings.title }}
+    </div>
+    <div class="my-4">
+        {{ section.settings.sub_title}}
+    </div>
+
+    <div class="my-5">
+    {% if section.settings.button_url == blank %}
+        {% assign shop_url =  shop.secure_url%}
+    {% else %}
+    {%  assign  shop_url = section.settings.button_url %} 
+             
+    {% endif %}
+       <a href="{{ shop_url }}"  class=" text-white font-medium shadow bg-green-900 px-5 py-2 hover:bg-green-800 rounded-lg">{{ section.settings.button_label}}</a> 
+    </div>
+</div>
+
+
+
+
+
+
+{%  schema  %} 
+{
+    "name":"template 404",
+    "tag": "section",
+    "class": "flex  items-center justify-center text-center  h-screen" ,
+    "settings": [
+        {
+            "type": "text",
+            "id":"title",
+            "default":"404",
+            "label": "this is heading for 404"
+        },
+        {
+            "type": "text",
+            "id": "sub_title",
+            "default": "The page you are looking is not found",
+            "label": "Sub heading for not found"
+        }, 
+        {
+            "type": "text",
+            "id" : "button_label",
+            "default": "Back to home",
+            "label":"button_content"
+        },
+        {
+            "type": "url",
+            "id":"button_url",
+            "label" : "Button url"
+        }
+    ]
+
+
+}
+{% endschema %} 
